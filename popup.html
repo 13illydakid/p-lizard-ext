@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Task Form</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+
+        body {
+            margin: 0;
+            padding: 12px;
+            font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-width: 360px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        label,
+        .field {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4px;
+        }
+
+        .label-text {
+            font-weight: 600;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(127, 127, 127, 0.35);
+            background: transparent;
+            color: inherit;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        #rewriteAnswer {
+            min-height: 35px;
+        }
+
+        #imageAndPrompt {
+            min-height: 105px;
+        }
+
+        .textarea-wrap {
+            position: relative;
+        }
+
+        .field-actions {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: inline-flex;
+            gap: 8px;
+            transform: translateY(-95%);
+        }
+
+        .clear-btn {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .field-actions .clear-btn.is-pressed {
+            background: rgba(127, 127, 127, 0.3);
+            border-color: rgba(127, 127, 127, 0.65);
+        }
+
+        .hint {
+            opacity: 0.8;
+            font-size: 12px;
+        }
+
+        .image-status-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .image-status-text {
+            opacity: 0.8;
+            font-size: 12px;
+            max-width: 280px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .image-delete-btn {
+            display: none;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.2;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        button {
+            cursor: pointer;
+            border-radius: 8px;
+            padding: 8px 10px;
+            border: 1px solid rgba(127, 127, 127, 0.35);
+            background: transparent;
+            color: inherit;
+        }
+
+        .choice-row button[aria-pressed="true"] {
+            background: rgba(127, 127, 127, 0.25);
+            border-color: rgba(127, 127, 127, 0.65);
+            font-weight: 600;
+        }
+
+        .choice-row button[aria-pressed="true"]:active {
+            background: rgba(127, 127, 127, 0.3);
+        }
+
+        .choice-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .row-with-action {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            column-gap: 8px;
+        }
+
+        .get-btn {
+            width: 66px;
+            height: 66px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            justify-self: center;
+            transform: translate(-14px, -11px);
+            border-radius: 9999px;
+        }
+
+        .get-btn.is-pressed {
+            background: rgba(127, 127, 127, 0.3);
+            border-color: rgba(127, 127, 127, 0.65);
+        }
+
+        .pressable.is-pressed {
+            background: rgba(127, 127, 127, 0.3);
+            border-color: rgba(127, 127, 127, 0.65);
+        }
+    </style>
+</head>
+
+<body>
+    <form id="taskForm" autocomplete="off">
+        <label>
+            <div class="label-text">Task ID</div>
+            <div class="textarea-wrap">
+                <div class="field-actions">
+                    <button id="copyTaskIdBtn" class="clear-btn copy-btn" type="button">Copy</button>
+                    <button id="setTaskIdBtn" class="clear-btn" type="button">Set</button>
+                </div>
+                <input id="taskId" name="taskId" type="text" />
+            </div>
+        </label>
+
+        <div class="field">
+            <div class="label-text">Annotator or Reviewer</div>
+            <div class="choice-row">
+                <button id="choiceAnnotating" type="button" aria-pressed="false">Annotating</button>
+                <button id="choiceReviewing" type="button" aria-pressed="false">Reviewing</button>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="label-text">QA Number</div>
+            <div class="row-with-action">
+                <div class="choice-row" role="group" aria-label="QA number">
+                    <button id="qaBtn1" type="button" aria-pressed="true" data-qa="1">1</button>
+                    <button id="qaBtn2" type="button" aria-pressed="false" data-qa="2">2</button>
+                    <button id="qaBtn3" type="button" aria-pressed="false" data-qa="3">3</button>
+                    <button id="qaBtn4" type="button" aria-pressed="false" data-qa="4">4</button>
+                    <button id="qaBtn5" type="button" aria-pressed="false" data-qa="5">5</button>
+                </div>
+                <button id="getBtnQa" class="get-btn" type="button">Get</button>
+            </div>
+        </div>
+
+        <label>
+            <div class="label-text">Image &amp; Prompt</div>
+            <div class="textarea-wrap">
+                <div class="field-actions">
+                    <button id="copyImageAndPromptBtn" class="clear-btn copy-btn" type="button">Copy</button>
+                    <button id="clearImageAndPromptBtn" class="clear-btn" type="button">Clear</button>
+                </div>
+                <textarea id="imageAndPrompt" name="imageAndPrompt"></textarea>
+            </div>
+            <input id="imageFile" name="imageFile" type="file" accept="image/*" />
+            <div class="image-status-row">
+                <span id="imageStatus" class="image-status-text">No image selected</span>
+                <button id="deleteImageBtn" class="image-delete-btn" type="button"
+                    aria-label="Delete uploaded image">x</button>
+            </div>
+        </label>
+
+        <label>
+            <div class="label-text">Rewrite Answer</div>
+            <div class="textarea-wrap">
+                <div class="field-actions">
+                    <button id="copyRewriteAnswerBtn" class="clear-btn copy-btn" type="button">Copy</button>
+                    <button id="clearRewriteAnswerBtn" class="clear-btn" type="button">Clear</button>
+                </div>
+                <textarea id="rewriteAnswer" name="rewriteAnswer"></textarea>
+            </div>
+        </label>
+
+        <div class="footer">
+            <button id="refreshBtn" class="pressable" type="button">Refresh</button>
+            <div class="choice-row">
+                <button id="fillSubmitBtn" class="pressable" type="button">Fill &amp; Submit</button>
+            </div>
+        </div>
+    </form>
+
+    <script src="script.js"></script>
+    <script src="popup.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Task Helper Popup",
+  "version": "1.0.0",
+  "description": "Popup form with persistent fields.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+  "https://editor.superannotate.com/*",
+  "https://custom-llm.superannotate.com/*"
+],
+  "action": {
+    "default_title": "Open form",
+    "default_popup": "popup.html"
+  }
+}
