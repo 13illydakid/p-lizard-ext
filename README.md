@@ -23,7 +23,7 @@ A small Manifest V3 browser extension that adds a popup form and injects scripts
 
 4. Select the extension folder (the one that contains `manifest.json`)
 
-![Select extension folder](assets/select_extension.png)
+<img src="assets/select_extension.png" alt="Select extension folder" width="500" />
 
 The extension should now appear in your extensions list.
 
