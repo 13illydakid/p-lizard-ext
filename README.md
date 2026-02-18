@@ -7,7 +7,7 @@ A small Manifest V3 browser extension that adds a popup form and injects scripts
 1. Open the repo on GitHub
 2. Click **Code** → **Download ZIP**
 
-<img src="assets/download_zip.png" alt="Download ZIP" width="900" />
+![Download ZIP](assets/download_zip.png)
 
 3. Unzip it (you should end up with a folder containing `manifest.json`)
 
@@ -23,7 +23,7 @@ A small Manifest V3 browser extension that adds a popup form and injects scripts
 
 4. Select the extension folder (the one that contains `manifest.json`)
 
-<img src="assets/select_extension.png" alt="Select extension folder" width="500" />
+![Select extension folder](assets/select_extension.png)
 
 The extension should now appear in your extensions list.
 
