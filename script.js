@@ -300,7 +300,25 @@ async function fillTaskIdThenChooseAnnotatingOrReviewingAndSubmit(
     if (!submitBtn5) throw new Error('No button[type="submit"] found inside the last div.group.w-full.pt-8 (script #5)');
     await sleep(50);
     submitBtn5.click();
-    await waitForCount(baseLen + 5);
+    const groupsAfter5 = await waitForCount(baseLen + 5);
+    
+    // --- v4 Update: AI Grader Removed
+    
+    const container6 = groupsAfter5[groupsAfter5.length - 1];
+    const submitBtn6 = container6.querySelector('button[type="button"][aria-label="Continue"]');
+    if (!submitBtn6) throw new Error('No button[type="submit"] found inside the last div.group.w-full.pt-8 (script #6)');
+    await sleep(50);
+    submitBtn6.click();
+    const groupsAfter6 = await waitForCount(baseLen + 6);
+    
+    // --- Submit Task Btn (Commented off, manually submitting work is safer.)
+    
+    // const submitBtns7 = document.querySelectorAll('button[type="button"]');
+    // const submitBtn7 = Array.from(submitBtns7).filter(button => button.textContent.trim() === "Submit task")[0];
+    // if (!submitBtn7) throw new Error('No button[type="button"] found with textContent = "Submit task".');
+    // await sleep(50);
+    // submitBtn7.click();
+
 }
 
 // Wire the popup button here (moved from popup.js).
